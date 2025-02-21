@@ -1,10 +1,14 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
     const links =<>
     
-              <li><a>Item 1</a></li>
-              <li><a>Item 3</a></li>
+              <li><NavLink  to = "/">Home</NavLink></li>
+              <li><NavLink  to = "/login">LogIn:</NavLink></li>
+              <li><NavLink  to = "/register">Register</NavLink></li>
+              <li><NavLink  to = "/SignUp">SignUp</NavLink></li>
+              
     </>
     return (
         <div className="navbar bg-base-100">

@@ -4,8 +4,8 @@ import Header from '../components/Header/Header';
 
 const Mainn = () => {
     return (
-        <div>
-            <Header></Header>
+        <div className='max-w-5xl mx-auto'>
+        <Header></Header>
         <Outlet></Outlet>
         </div>
     );
