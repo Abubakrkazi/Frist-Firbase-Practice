@@ -1,4 +1,6 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React from "react";
+import { auth } from "../../Firebase";
 
 const Register = () => {
 
@@ -10,6 +12,15 @@ const Register = () => {
         console.log(name);
         console.log(email);
         console.log(password);
+
+       createUserWithEmailAndPassword(auth ,email,password)
+       .then(result =>{
+        console.log(result.user);
+       })
+       .catch(error=>{
+        console.log('Error',error);
+       })
+     
     }
   return (
     <div className="max-w-lg mx-auto">
