@@ -40,7 +40,7 @@ const SignUp = () => {
         "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character"
       );
       return;
-    } 
+    }  
 
     // Firebase create user logic
     createUserWithEmailAndPassword(auth, email, password)
