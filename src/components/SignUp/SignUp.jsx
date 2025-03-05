@@ -2,6 +2,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../Firebase";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import LogIn from "../LogIn/LogIn";
 
 const SignUp = () => {
   const [success, setSuccess] = useState(false);
@@ -15,8 +17,8 @@ const SignUp = () => {
     const terms = e.target.terms.checked;
     setErrorMessage("");
     setSuccess(false);
-    if(!terms){
-      setErrorMessage('Please accept Our terms and conditon');
+    if (!terms) {
+      setErrorMessage("Please accept Our terms and conditon");
       return;
     }
 
@@ -104,6 +106,14 @@ const SignUp = () => {
       {success && (
         <p className="text-green-600 text-center">SignUp successful</p>
       )}
+      <p className="m-3">
+        Already have an Account? Please
+        <Link to="/LogIn" className="relative ml-1">
+          <span className="text-green-500 after:block after:h-[2px] after:bg-green-500 after:w-full after:absolute after:left-0 after:bottom-0">
+            LogIn
+          </span>
+        </Link>
+      </p>
     </div>
   );
 };
