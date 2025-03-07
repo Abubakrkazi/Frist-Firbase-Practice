@@ -1,9 +1,12 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../Firebase";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import LogIn from "../LogIn/LogIn";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
 const SignUp = () => {
   const [success, setSuccess] = useState(false);
@@ -17,13 +20,14 @@ const SignUp = () => {
     const terms = e.target.terms.checked;
     setErrorMessage("");
     setSuccess(false);
+
     if (!terms) {
-      setErrorMessage("Please accept Our terms and conditon");
+      setErrorMessage("Please accept our Terms and Conditions");
       return;
     }
 
     if (password.length < 6) {
-      setErrorMessage("Password should be 6 characters or longer");
+      setErrorMessage("Password should be at least 6 characters long");
       return;
     }
 
@@ -35,13 +39,22 @@ const SignUp = () => {
       return;
     }
 
-    createUserWithEmailAndPassword(auth, email, password, terms)
-      .then((result) => {
-        console.log(result.user);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
         setSuccess(true);
+
+        // ✅ সঠিকভাবে ইমেল ভেরিফিকেশন পাঠানো
+        sendEmailVerification(user)
+          .then(() => {
+            alert("Verification email sent! Please check your inbox.");
+          })
+          .catch((error) => {
+            console.error("Email verification error:", error);
+          });
       })
       .catch((error) => {
-        console.log("Error", error);
+        console.log("Error:", error);
         setErrorMessage(error.message);
         setSuccess(false);
       });
@@ -90,12 +103,12 @@ const SignUp = () => {
         <label className="label justify-start cursor-pointer">
           <input type="checkbox" name="terms" className="checkbox" />
           <span className="label-text ml-2">
-            Accept Our Terms And Condition
+            Accept Our Terms and Conditions
           </span>
         </label>
 
         <div className="form-control mt-6">
-          <button className="btn btn-primary">SignUp</button>
+          <button className="btn btn-primary">Sign Up</button>
         </div>
       </form>
 
@@ -104,7 +117,9 @@ const SignUp = () => {
       )}
 
       {success && (
-        <p className="text-green-600 text-center">SignUp successful</p>
+        <p className="text-green-600 text-center">
+          Sign Up successful! Please check your email for verification.
+        </p>
       )}
       <p className="m-3">
         Already have an Account? Please
